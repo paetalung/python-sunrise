@@ -1,4 +1,4 @@
-# sunrise.py
+# sunriseCheck.py
 # https://paetalung.github.io/cv/
 
 from selenium import webdriver
@@ -11,7 +11,7 @@ opt = webdriver.ChromeOptions()
 opt.add_argument('headless') # hidden mode of chrome
 
 driver = webdriver.Chrome(options=opt) # create driver
-
+#driver = webdriver.Chrome() # create driver
 url = 'https://meteogram.org/sun/thailand/chumphon/'
 
 driver.get(url) # open web
@@ -23,12 +23,13 @@ driver.close()
 data = soup(page_html,'html.parser') # scan data
 #print(data)
 
-table = data.findAll('td',{'id':'sunrise'})
+table = data.find('td',{'id':'sunrise'})
 #print(table)
+
 out = str(table) # index on data
 
-out = out.replace("[<td id=\"sunrise\">","")
-out = out.replace("</td>]","")
+out = out.replace("<td id=\"sunrise\">","")
+out = out.replace("</td>","")
 out = out.replace("<span>","")
 out = out.replace("</span>","")
 out = out.replace("<strong>","")
@@ -37,10 +38,9 @@ out = out.replace("</strong>","")
 
 # Send line Section    
 from songline import Sendline
-token = '' # TEST TOKEN
+token = 'XXXXXXXXXX' # TEST
 
 sunrise = "SUNRISE @ " + out
 
 messenger = Sendline(token)
 messenger.sendtext(sunrise)
-
